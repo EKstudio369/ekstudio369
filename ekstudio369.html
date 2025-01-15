@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EKstudio369 - Головна</title>
+  
+  <!-- Подключение декоративного шрифта для заголовка -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Пример использования шрифта Shadows Into Light как заглушки для EKstudio369 -->
+  <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+  <!-- Дополнительный шрифт для описания -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Общие стили для всего сайта */
+    body, .card, .card * {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none; 
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      color: #fff;
+    }
+    body {
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(135deg, #1e1e2f, #2c2c54);
+      position: relative;
+      margin: 0;
+    }
+
+    /* Контейнеры для страниц */
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .active {
+      display: block;
+    }
+
+    /* Стили для главной страницы */
+    #homePage {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+      z-index: 2;
+    }
+    #homePage h1 {
+      font-family: 'Shadows Into Light', cursive;
+      font-size: 3rem;
+      color: #40E0D0;
+      text-shadow: 0 0 10px rgba(64,224,208,0.7);
+      animation: pulse 3s infinite;
+      margin-bottom: 20px;
+    }
+    #homePage p {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin-bottom: 30px;
+    }
+    .buttons-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .category-button {
+      background: rgba(64, 224, 208, 0.2);
+      border: 2px solid #40E0D0;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      color: #fff;
+      border-radius: 20px;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .category-button:hover {
+      background: rgba(64, 224, 208, 0.4);
+    }
+    .category-button:active {
+      box-shadow: inset 0 0 50px rgba(64,224,208,0.7);
+    }
+
+    @keyframes pulse {
+      0%, 100% { text-shadow: 0 0 10px rgba(64,224,208,0.7); }
+      50% { text-shadow: 0 0 20px rgba(64,224,208,1); }
+    }
+
+    /* Стили для страницы категории и общие элементы */
+    .site-title {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10001;
+      font-family: 'Shadows Into Light', cursive;
+      font-size: 2rem;
+      color: #40E0D0;
+      text-shadow: 0 0 10px rgba(64, 224, 208, 0.7);
+      animation: pulse 3s infinite;
+    }
+    .lang-button {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 10000;
+      font-family: 'Shadows Into Light', cursive;
+      font-size: 1rem;
+      background: none;
+      border: none;
+      color: #40E0D0;
+      cursor: pointer;
+    }
+    .star {
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      width: 2px;
+      height: 2px;
+      background: radial-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.2));
+      border-radius: 50%;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      to { transform: translateY(110vh); }
+    }
+    .stars {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .cards-grid {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px;
+      max-width: 100%;
+      margin-top: 100px; /* Смещение 20 карточек ниже описания */
+    }
+    .card-container {
+      width: 80px; height: 112px;
+      perspective: 1000px;
+      position: relative;
+      transform: scale(0);
+      animation: popIn 0.5s forwards ease;
+    }
+    .card-container:nth-child(n) {
+      animation-delay: calc(0.05s * var(--i));
+    }
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .small-card {
+      width: 100%; height: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      background: #2c2c54;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      cursor: pointer;
+      border: 1px solid rgba(64, 224, 208, 0.4);
+      box-shadow: 0 0 5px rgba(64, 224, 208, 0.5);
+    }
+    .small-card::after {
+      content: "";
+      position: absolute;
+      top: -2px; left: -2px; right: -2px; bottom: -2px;
+      pointer-events: none;
+      z-index: 2;
+      border-radius: 8px;
+      border: 1px solid rgba(64, 224, 208, 0.4);
+      box-shadow: 0 0 5px rgba(64, 224, 208, 0.5);
+    }
+    .small-card .game-title {
+      position: absolute;
+      bottom: 5px;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .overlay.active { display: flex; }
+    .overlay-stars {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .overlay-star {
+      position: absolute;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: #fff;
+      opacity: 0;
+      animation: flicker 2s infinite ease-in-out;
+    }
+    @keyframes flicker {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 0.8; }
+    }
+    .overlay-card-container {
+      width: 300px; height: 420px;
+      perspective: 2000px;
+      position: relative;
+      z-index: 2;
+      transform: scale(0.7);
+      opacity: 0;
+    }
+    .overlay.active .overlay-card-container {
+      animation: popUp 0.6s forwards ease-in-out;
+    }
+    @keyframes popUp {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .back-button {
+      position: fixed;
+      top: 10px; left: 10px;
+      z-index: 10002;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+      text-shadow: 0 0 10px rgba(64, 224, 208, 0.7);
+      animation: pulse 3s infinite;
+    }
+    .back-button:hover { opacity: 1; }
+    .big-card {
+      width: 100%; height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      border-radius: 12px;
+      transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+      background: #2c2c54;
+    }
+    .big-card::after {
+      content: "";
+      position: absolute;
+      top: -1px; left: -1px; right: -1px; bottom: -1px;
+      border-radius: 12px;
+      pointer-events: none;
+      z-index: 2;
+      border: 2px solid rgba(64, 224, 208, 0.5);
+      box-shadow: 0 0 10px rgba(64, 224, 208, 0.6),
+                  0 0 20px rgba(64, 224, 208, 0.4),
+                  0 0 30px rgba(64, 224, 208, 0.2);
+      animation: borderGlow 3s infinite alternate;
+    }
+    @keyframes borderGlow {
+      0% { box-shadow: 0 0 10px rgba(64, 224, 208, 0.6),
+                     0 0 20px rgba(64, 224, 208, 0.4),
+                     0 0 30px rgba(64, 224, 208, 0.2); }
+      100% { box-shadow: 0 0 20px rgba(64, 224, 208, 0.8),
+                       0 0 40px rgba(64, 224, 208, 0.6),
+                       0 0 60px rgba(64, 224, 208, 0.4); }
+    }
+    .big-card.is-flipped { transform: rotateY(180deg); }
+    .big-card-face {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    .big-card-front { background: #2c2c54; }
+    .big-card-front .logo {
+      position: absolute; bottom: 8px; right: 8px;
+      font-size: 0.9rem;
+    }
+    .big-card-back {
+      background: #1b1b2d;
+      color: #40E0D0;
+      transform: rotateY(180deg);
+      flex-direction: column;
+    }
+    .big-card-back h2 { margin-bottom: 10px; font-size: 1.6rem; }
+    .big-card-back p { font-size: 1.2rem; line-height: 1.6; margin: 0; }
+  </style>
+</head>
+<body>
+
+  <!-- Главная страница -->
+  <div id="homePage" class="page active">
+    <h1>EKstudio369</h1>
+    <p>Це опис сайту з цікавими функціями та можливостями. Оцініть перелік категорій нижче.</p>
+    <div class="buttons-container">
+      <button class="category-button" data-category="приложения">Приложення</button>
+      <button class="category-button" data-category="програми">Програми</button>
+      <button class="category-button" data-category="apps">Apps</button>
+      <button class="category-button" data-category="dapps">DApps</button>
+      <button class="category-button" data-category="сайти">Сайти</button>
+      <button class="category-button" data-category="ефекти">Ефекти</button>
+      <button class="category-button" data-category="розваги">Розваги</button>
+      <button class="category-button" data-category="інше">Інше</button>
+    </div>
+  </div>
+
+  <!-- Страница категории (общая для всех категорий) -->
+  <div id="categoryPage" class="page">
+    <div class="site-title">EKstudio369</div>
+    <button class="lang-button" id="languageToggle">EN</button>
+    <div class="stars"></div>
+    <div class="cards-grid"></div>
+    <div class="overlay" id="overlay">
+      <div class="overlay-stars" id="overlayStars"></div>
+      <div class="overlay-card-container">
+        <button class="back-button" id="backButton">←</button>
+        <div class="big-card" id="bigCard">
+          <div class="big-card-face big-card-front">
+            <div class="logo" data-key="frontLogo">by Iryna Kolokolova</div>
+          </div>
+          <div class="big-card-face big-card-back">
+            <h2 data-key="backTitle">Моя карта на день</h2>
+            <p data-key="backDescription">
+              На зображенні рука обережно тримає прозору банку,<br>
+              де перебуває тендітний метелик. Це уособлення нашого<br>
+              прагнення вберегти найцінніші мрії й надії, які<br>
+              живлять дух і надихають невпинно рухатися вперед,<br>
+              попри всі перепони.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const translations = {
+      uk: {
+        frontLogo: "by Iryna Kolоколова",
+        backTitle: "Моя карта на день",
+        backDescription: `На зображенні рука обережно тримає прозору банку,<br>
+                        де перебуває тендітний метелик. Це уособлення нашого<br>
+                        прагнення вберегти найцінніші мрії й надії, які<br>
+                        живлять дух і надихають невпинно рухатися вперед,<br>
+                        попри всі перепони.`,
+        gameName: "Назва гри"
+      },
+      en: {
+        frontLogo: "by Iryna Kolоколова",
+        backTitle: "My Card for the Day",
+        backDescription: `The image shows a hand gently holding a transparent jar,<br>
+                          inside which resides a delicate butterfly. This symbolizes<br>
+                          our desire to protect the most precious dreams and hopes,<br>
+                          which nurture the spirit and inspire us to move forward relentlessly,<br>
+                          despite all obstacles.`,
+        gameName: "Game Title"
+      }
+    };
+
+    let currentLang = 'uk';
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Инициализация главной страницы
+      initHomePage();
+
+      // Кнопка переключения языка (на главной не нужна, применится на странице категории)
+    });
+
+    function initHomePage() {
+      const buttons = document.querySelectorAll(".category-button");
+      buttons.forEach(button => {
+        button.addEventListener("click", () => {
+          switchToCategoryPage(button.dataset.category);
+        });
+      });
+    }
+
+    function switchToCategoryPage(category) {
+      document.getElementById("homePage").classList.remove("active");
+      document.getElementById("categoryPage").classList.add("active");
+
+      createFallingStars(40);
+      createSmallCards(20);
+      createOverlayStars(30);
+
+      document.getElementById("backButton").addEventListener("click", () => {
+        document.getElementById("categoryPage").classList.remove("active");
+        document.getElementById("homePage").classList.add("active");
+      });
+
+      const bigCard = document.getElementById("bigCard");
+      bigCard.addEventListener("click", () => {
+        bigCard.classList.toggle("is-flipped");
+      });
+
+      document.getElementById("languageToggle").addEventListener("click", toggleLanguage);
+      updateLanguage();
+    }
+
+    function createFallingStars(count) {
+      const starsContainer = document.querySelector(".stars");
+      starsContainer.innerHTML = "";
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement("div");
+        star.className = "star";
+        const size = Math.random() * 2 + 1;
+        star.style.width = size + "px";
+        star.style.height = size + "px";
+        star.style.left = Math.random() * 100 + "%";
+        const duration = 4 + Math.random() * 5;
+        star.style.animationDuration = duration + "s";
+        const delay = Math.random() * 5;
+        star.style.animationDelay = delay + "s";
+        starsContainer.appendChild(star);
+      }
+    }
+
+    function createSmallCards(total) {
+      const grid = document.querySelector(".cards-grid");
+      grid.innerHTML = "";
+      for (let i = 0; i < total; i++) {
+        const container = document.createElement("div");
+        container.classList.add("card-container");
+        container.style.setProperty("--i", i);
+
+        const smallCard = document.createElement("div");
+        smallCard.classList.add("small-card");
+
+        const title = document.createElement("div");
+        title.classList.add("game-title");
+        title.setAttribute("data-key", "gameName");
+        smallCard.appendChild(title);
+
+        container.appendChild(smallCard);
+        grid.appendChild(container);
+
+        smallCard.addEventListener("click", () => {
+          openOverlay();
+        });
+      }
+    }
+
+    function createOverlayStars(count) {
+      const overlayStarsContainer = document.getElementById("overlayStars");
+      overlayStarsContainer.innerHTML = "";
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement("div");
+        star.className = "overlay-star";
+        star.style.left = Math.random() * 100 + "%";
+        star.style.top = Math.random() * 100 + "%";
+        const duration = 1.5 + Math.random() * 2;
+        star.style.animationDuration = duration + "s";
+        const delay = Math.random() * 2;
+        star.style.animationDelay = delay + "s";
+        overlayStarsContainer.appendChild(star);
+      }
+    }
+
+    function openOverlay() {
+      const overlay = document.getElementById("overlay");
+      overlay.classList.add("active");
+      const bigCard = document.getElementById("bigCard");
+      bigCard.classList.remove("is-flipped");
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'uk' ? 'en' : 'uk';
+      document.getElementById("languageToggle").textContent = currentLang === 'uk' ? "EN" : "UK";
+      updateLanguage();
+    }
+
+    function updateLanguage() {
+      document.querySelectorAll("[data-key]").forEach(elem => {
+        const key = elem.getAttribute("data-key");
+        if(translations[currentLang][key]) {
+          elem.innerHTML = translations[currentLang][key];
+        }
+      });
+    }
+  </script>
+</body>
+</html>
